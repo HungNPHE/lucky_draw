@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'theme/tet_theme.dart';
 import 'viewmodels/lucky_draw_viewmodel.dart';
 import 'views/lucky_draw_page.dart';
+import 'views/animal_racing_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -151,7 +152,115 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const LuckyDrawPage(),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = const [
+    LuckyDrawPage(),
+    AnimalRacingPage(),
+  ];
+
+  final List<String> _titles = const [
+    'Lì Xì May Mắn',
+    'Đua Thú',
+  ];
+
+  final List<IconData> _icons = const [
+    Icons.casino_rounded,
+    Icons.pets_rounded,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xFF2a0a0a),
+          border: Border(
+            top: BorderSide(
+              color: TetTheme.gold.withOpacity(0.2),
+            ),
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(2, (index) {
+                final isSelected = _selectedIndex == index;
+                return Expanded(
+                  child: GestureDetector(
+                    onTap: () => setState(() => _selectedIndex = index),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        gradient: isSelected
+                            ? LinearGradient(
+                                colors: [
+                                  TetTheme.redPrimary.withOpacity(0.3),
+                                  TetTheme.redPrimary.withOpacity(0.1),
+                                ],
+                              )
+                            : null,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            _icons[index],
+                            color: isSelected
+                                ? TetTheme.gold
+                                : Colors.white.withOpacity(0.5),
+                            size: 22,
+                          ),
+                          const SizedBox(height: 2),
+                          Flexible(
+                            child: Text(
+                              _titles[index],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: isSelected
+                                    ? FontWeight.w700
+                                    : FontWeight.w500,
+                                color: isSelected
+                                    ? TetTheme.gold
+                                    : Colors.white.withOpacity(0.5),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
