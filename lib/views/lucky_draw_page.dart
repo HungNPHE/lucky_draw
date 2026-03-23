@@ -161,19 +161,15 @@ class _LuckyDrawPageState extends State<LuckyDrawPage>
                         child: _buildHeader(context),
                       ),
 
-                      // Wheel Card
+                      // Lucky Wheel Content
                       SliverToBoxAdapter(
-                        child: _buildWheelCard(context, vm),
-                      ),
-
-                      // Settings Card
-                      SliverToBoxAdapter(
-                        child: _buildSettingsCard(context, vm),
-                      ),
-
-                      // Spin Button
-                      SliverToBoxAdapter(
-                        child: _buildSpinButton(context, vm),
+                        child: Column(
+                          children: [
+                            _buildWheelCard(context, vm),
+                            _buildSettingsCard(context, vm),
+                            _buildSpinButton(context, vm),
+                          ],
+                        ),
                       ),
 
                       // History header

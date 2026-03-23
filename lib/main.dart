@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'theme/tet_theme.dart';
 import 'viewmodels/lucky_draw_viewmodel.dart';
 import 'views/lucky_draw_page.dart';
+import 'views/gacha_page.dart';
 import 'views/animal_racing_page.dart';
 
 void main() {
@@ -169,16 +170,19 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = const [
     LuckyDrawPage(),
+    GachaPage(),
     AnimalRacingPage(),
   ];
 
   final List<String> _titles = const [
+    'Vòng Quay',
     'Lì Xì May Mắn',
     'Đua Thú',
   ];
 
   final List<IconData> _icons = const [
     Icons.casino_rounded,
+    Icons.card_giftcard_rounded,
     Icons.pets_rounded,
   ];
 
@@ -200,7 +204,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(2, (index) {
+              children: List.generate(3, (index) {
                 final isSelected = _selectedIndex == index;
                 return Expanded(
                   child: GestureDetector(

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../interface/lucky_draw_repository.dart';
 import '../models/lucky_result.dart';
+import '../models/gacha_result.dart';
 import '../repository/lucky_draw_repository_impl.dart';
 import '../services/lucky_draw_service.dart';
+import '../services/gacha_service.dart' hide GachaService;
 
 enum SpinMode {
   range,
@@ -41,6 +43,14 @@ class LuckyDrawViewModel extends ChangeNotifier {
   String customValuesInput = "1,10";
 
   SpinMode mode = SpinMode.range;
+
+  // Gacha feature
+  GachaResult? currentGachaResult;
+  bool isShowingGachaResult = false;
+  final GachaService _gachaService = GachaService();
+  final List<GachaResult> _gachaHistory = [];
+  
+  List<GachaResult> get gachaHistory => List.unmodifiable(_gachaHistory);
 
   List<int> get customValues => _parseCustomValues();
   
@@ -98,6 +108,34 @@ class LuckyDrawViewModel extends ChangeNotifier {
 
   void clearHistory() {
     _repository.clearHistory();
+    notifyListeners();
+  }
+
+  /// Thực hiện quay gacha
+  Future<void> drawGacha() async {
+    if (isSpinning) return;
+
+    isSpinning = true;
+    notifyListeners();
+
+    // Simulate drawing animation time
+    await Future.delayed(const Duration(milliseconds: 1500));
+
+    // Draw result
+    currentGachaResult = _gachaService.draw();
+    
+    // Save to history
+    _gachaHistory.insert(0, currentGachaResult!);
+    
+    isShowingGachaResult = true;
+    isSpinning = false;
+    notifyListeners();
+  }
+
+  /// Đóng hiển thị kết quả gacha
+  void closeGachaResult() {
+    isShowingGachaResult = false;
+    currentGachaResult = null;
     notifyListeners();
   }
 
