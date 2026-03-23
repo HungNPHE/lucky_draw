@@ -54,6 +54,19 @@ class LuckyDrawViewModel extends ChangeNotifier {
 
   List<int> get customValues => _parseCustomValues();
   
+  /// Danh sách giá trị để hiển thị trên vòng quay cho range mode
+  List<int> get rangeValues {
+    if (mode != SpinMode.range) return [];
+    
+    // Only show start and end values
+    if (minNumber > maxNumber) {
+      return [];
+    }
+    
+    // Return only 2 values: min and max
+    return [minNumber, maxNumber];
+  }
+
   /// Danh sách các giá trị (chữ, số hoặc kết hợp)
   List<NamedValue> namedValues = [];
   
@@ -63,6 +76,11 @@ class LuckyDrawViewModel extends ChangeNotifier {
   void setMode(SpinMode newMode) {
     if (mode == newMode) return;
     mode = newMode;
+    
+    // Clear values when switching modes
+    currentNumber = null;
+    currentName = null;
+    
     notifyListeners();
   }
 
@@ -70,6 +88,11 @@ class LuckyDrawViewModel extends ChangeNotifier {
     final parsed = int.tryParse(value);
     if (parsed == null) return;
     minNumber = parsed;
+    
+    // Clear current result when range changes
+    currentNumber = null;
+    currentName = null;
+    
     notifyListeners();
   }
 
@@ -77,6 +100,11 @@ class LuckyDrawViewModel extends ChangeNotifier {
     final parsed = int.tryParse(value);
     if (parsed == null) return;
     maxNumber = parsed;
+    
+    // Clear current result when range changes
+    currentNumber = null;
+    currentName = null;
+    
     notifyListeners();
   }
 

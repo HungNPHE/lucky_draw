@@ -9,6 +9,7 @@ import 'widgets/history_list.dart';
 import 'widgets/rule_dialog.dart';
 import 'widgets/tag_input_field.dart';
 import 'widgets/named_value_input.dart';
+import 'widgets/range_input_field.dart';
 
 class LuckyDrawPage extends StatefulWidget {
   const LuckyDrawPage({super.key});
@@ -339,8 +340,8 @@ class _LuckyDrawPageState extends State<LuckyDrawPage>
               child: LuckyWheel(
                 isSpinning: vm.isSpinning,
                 result: vm.currentName ?? vm.currentNumber,
-                values: vm.mode == SpinMode.range ? vm.customValues : null,
-                stringValues: vm.mode == SpinMode.customList ? vm.wheelValues : null,
+                values: (vm.mode == SpinMode.range && vm.rangeValues.isNotEmpty) ? vm.rangeValues : null,
+                stringValues: (vm.mode == SpinMode.customList && vm.wheelValues.isNotEmpty) ? vm.wheelValues : null,
               ),
             ),
             if (vm.currentNumber != null && !vm.isSpinning) ...[
@@ -501,20 +502,13 @@ class _LuckyDrawPageState extends State<LuckyDrawPage>
           ),
         ),
         const SizedBox(height: 10),
-        TagInputField(
-          initialValues: [vm.minNumber, vm.maxNumber],
-          onChanged: (values) {
-            if (values.length >= 2) {
-              values.sort();
-              vm.setRangeMin(values.first.toString());
-              vm.setRangeMax(values.last.toString());
-            } else if (values.length == 1) {
-              vm.setRangeMin(values.first.toString());
-              vm.setRangeMax(values.first.toString());
-            }
-          },
-          hint: 'VD: 1 100 hoặc 1, 100',
-          label: 'Từ số – Đến số',
+        RangeInputField(
+          initialValue: vm.minNumber,
+          finalValue: vm.maxNumber,
+          onInitialChanged: (value) => vm.setRangeMin(value.toString()),
+          onFinalChanged: (value) => vm.setRangeMax(value.toString()),
+          hint: 'VD: 1, 100',
+          label: 'Khoảng số',
         ),
         const SizedBox(height: 8),
         // Quick range chips
@@ -581,19 +575,14 @@ class _LuckyDrawPageState extends State<LuckyDrawPage>
       key: const ValueKey('list'),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Nhập giá trị bất kỳ (VD: 1, a, b, c, 3) rồi nhấn +',
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.white.withOpacity(0.5),
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 10),
         NamedValueInput(
+
           initialValues: vm.namedValues,
           onChanged: (values) {
             vm.setNamedValues(values);
+          },
+          onRemoveValue: (value) {
+            vm.removeCustomValue(value.display);
           },
         ),
       ],
@@ -1023,34 +1012,43 @@ class _ResultDialog extends StatelessWidget {
             Text(
               name!,
               style: const TextStyle(
-                fontSize: 24,
+                fontSize: 28,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),
             ),
+            const SizedBox(height: 8),
+            const Text(
+              'Giá trị may mắn!',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white70,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ] else ...[
+            Text(
+              '$number',
+              style: const TextStyle(
+                fontSize: 52,
+                fontWeight: FontWeight.w900,
+                color: TetTheme.goldLight,
+              ),
+            ),
             const SizedBox(height: 4),
+            const Text(
+              'Số may mắn!',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white70,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ],
-          Text(
-            '$number',
-            style: const TextStyle(
-              fontSize: 52,
-              fontWeight: FontWeight.w900,
-              color: TetTheme.goldLight,
-            ),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Số may mắn!',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white70,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
         ],
       ),
       content: const Text(
-        'Giữ số này trong danh sách hay xóa khỏi vòng quay?',
+        'Giữ giá trị này trong danh sách hay xóa khỏi vòng quay?',
         textAlign: TextAlign.center,
         style: TextStyle(color: Colors.white60, height: 1.5),
       ),

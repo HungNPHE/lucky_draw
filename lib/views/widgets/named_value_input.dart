@@ -8,11 +8,13 @@ import '../../viewmodels/lucky_draw_viewmodel.dart';
 class NamedValueInput extends StatefulWidget {
   final List<NamedValue> initialValues;
   final ValueChanged<List<NamedValue>> onChanged;
+  final ValueChanged<NamedValue>? onRemoveValue;
 
   const NamedValueInput({
     super.key,
     required this.initialValues,
     required this.onChanged,
+    this.onRemoveValue,
   });
 
   @override
@@ -81,8 +83,12 @@ class _NamedValueInputState extends State<NamedValueInput> {
   }
 
   void _removeItem(int index) {
+    final item = _items[index];
     setState(() => _items.removeAt(index));
     widget.onChanged(List.from(_items));
+    
+    // Call external removal callback if provided
+    widget.onRemoveValue?.call(item);
   }
 
   @override
@@ -122,11 +128,6 @@ class _NamedValueInputState extends State<NamedValueInput> {
                     fontWeight: FontWeight.w500,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'VD: 1, a, b, c, 3, Giải 1...',
-                    hintStyle: TextStyle(
-                      color: Colors.white.withOpacity(0.45),
-                      fontSize: 13,
-                    ),
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,

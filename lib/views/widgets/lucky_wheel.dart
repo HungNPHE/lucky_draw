@@ -456,7 +456,24 @@ class _LuckyWheelPainter extends CustomPainter {
         ..color = Colors.white.withOpacity(0.2);
       canvas.drawPath(path, borderPaint);
 
+      // Draw text
       final label = values[i].toString();
+      final textStyle = TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.w800,
+        fontSize: n <= 6
+            ? 16
+            : n <= 10
+            ? 13
+            : n <= 14
+            ? 11
+            : 9,
+        shadows: const [
+          Shadow(color: Colors.black87, blurRadius: 3),
+          Shadow(color: Colors.black45, blurRadius: 6),
+        ],
+      );
+      
       final tp = TextPainter(
         text: TextSpan(text: label, style: textStyle),
         textAlign: TextAlign.center,
@@ -569,6 +586,7 @@ class _StringWheelPainter extends CustomPainter {
         text: TextSpan(text: label, style: textStyle),
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr,
+        maxLines: 1,
       )..layout();
 
       final angle = start + sweep / 2;

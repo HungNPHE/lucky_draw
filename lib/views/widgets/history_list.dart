@@ -67,33 +67,26 @@ class HistoryList extends StatelessWidget {
         title: RichText(
           text: TextSpan(
             children: [
-              if (item.name != null && item.name!.isNotEmpty) ...[
+              if (item.name != null && item.name!.isNotEmpty)
                 TextSpan(
                   text: '${item.name}',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: Colors.white.withOpacity(0.9),
                     letterSpacing: 0.3,
                   ),
-                ),
+                )
+              else
                 TextSpan(
-                  text: ' - ',
+                  text: '${item.number}',
                   style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.white.withOpacity(0.4),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w800,
+                    color: medalColor ?? TetTheme.goldLight,
+                    letterSpacing: 0.5,
                   ),
                 ),
-              ],
-              TextSpan(
-                text: '${item.number}',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                  color: medalColor ?? TetTheme.goldLight,
-                  letterSpacing: 0.5,
-                ),
-              ),
             ],
           ),
         ),

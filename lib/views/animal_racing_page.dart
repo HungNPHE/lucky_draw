@@ -167,27 +167,6 @@ class _AnimalRacingPageContent extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 20, 16, 12),
       child: Row(
         children: [
-          // Back button
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Colors.white.withOpacity(0.2),
-                ),
-              ),
-              child: Icon(
-                Icons.arrow_back_rounded,
-                color: Colors.white.withOpacity(0.8),
-                size: 20,
-              ),
-            ),
-          ),
-          const SizedBox(width: 14),
-          
           // Title
           Container(
             padding: const EdgeInsets.all(10),
