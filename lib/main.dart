@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'theme/tet_theme.dart';
-import 'viewmodels/lucky_draw_viewmodel.dart';
-import 'views/lucky_draw_page.dart';
-import 'views/gacha_page.dart';
-import 'views/animal_racing_page.dart';
-import 'views/firework_page.dart';
+import 'core/theme/tet_theme.dart';
+import 'features/lucky_draw/presentation/viewmodels/lucky_draw_viewmodel.dart';
+import 'features/lucky_draw/presentation/pages/lucky_draw_page.dart';
+import 'features/gacha/presentation/pages/gacha_page.dart';
+import 'features/animal_racing/presentation/pages/animal_racing_page.dart';
+import 'features/firework/presentation/pages/firework_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
