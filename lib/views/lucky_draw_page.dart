@@ -1053,6 +1053,8 @@ class _ResultDialog extends StatelessWidget {
         style: TextStyle(color: Colors.white60, height: 1.5),
       ),
       actionsAlignment: MainAxisAlignment.center,
+      actionsOverflowAlignment: OverflowBarAlignment.center,
+      actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(true),
