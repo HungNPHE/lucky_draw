@@ -6,6 +6,7 @@ import 'viewmodels/lucky_draw_viewmodel.dart';
 import 'views/lucky_draw_page.dart';
 import 'views/gacha_page.dart';
 import 'views/animal_racing_page.dart';
+import 'views/firework_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -172,18 +173,21 @@ class _HomePageState extends State<HomePage> {
     LuckyDrawPage(),
     GachaPage(),
     AnimalRacingPage(),
+    FireworkPage(),
   ];
 
   final List<String> _titles = const [
     'Vòng Quay',
     'Lì Xì May Mắn',
     'Đua Thú',
+    'Pháo Hoa',
   ];
 
   final List<IconData> _icons = const [
     Icons.casino_rounded,
     Icons.card_giftcard_rounded,
     Icons.pets_rounded,
+    Icons.celebration_rounded,
   ];
 
   @override
@@ -204,7 +208,7 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(3, (index) {
+              children: List.generate(4, (index) {
                 final isSelected = _selectedIndex == index;
                 return Expanded(
                   child: GestureDetector(
